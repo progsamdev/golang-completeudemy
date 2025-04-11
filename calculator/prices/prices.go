@@ -22,7 +22,7 @@ func NewTaxIncludedPriceJob(taxRate float64, fileManager *filemanager.FileManage
 	}
 }
 
-func (job *TaxIncludedPriceJob) Process() {
+func (job *TaxIncludedPriceJob) Process(doneChan chan bool, errChan chan error) {
 
 	job.LoadPrices()
 
@@ -36,8 +36,9 @@ func (job *TaxIncludedPriceJob) Process() {
 	job.TaxIncludedPrices = result
 	err := job.FileManager.WriteJSON(job)
 	if err != nil {
-		log.Fatal(err)
+		errChan <- err
 	}
+	doneChan <- true
 }
 
 func (job *TaxIncludedPriceJob) LoadPrices() {
