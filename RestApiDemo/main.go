@@ -4,12 +4,17 @@ import (
 	"log"
 	"net/http"
 	"restapidemo/Models"
+	"restapidemo/db"
 
 	"github.com/gin-gonic/gin"
-	"github.com/gofrs/uuid"
 )
 
 func main() {
+	_, err := db.InitDB()
+	if err != nil {
+		log.Fatal("Failed to initialize database:", err)
+	}
+
 	server := gin.Default()
 
 	server.GET("/events", getEvents)
@@ -31,8 +36,6 @@ func createEvent(c *gin.Context) {
 		return
 	}
 
-	newEvent.UUID = uuid.Must(uuid.NewV4())
-	newEvent.UserID = uuid.Must(uuid.NewV4())
 	newEvent.Save()
 	c.JSON(http.StatusCreated, gin.H{"message": "Event created successfully"})
 }
