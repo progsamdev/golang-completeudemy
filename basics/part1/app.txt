@@ -1,0 +1,109 @@
+//package main
+
+/*
+import (
+	"errors"
+	"fmt"
+	"math"
+	"os"
+	"strconv"
+)
+
+func main() {
+	//part1()
+	//profit_calculator()
+	balance := 533.32
+	writeValueToFile(balance)
+	balance, err := getBalanceFromFile()
+	if err != nil {
+		fmt.Println("ERROR")
+		fmt.Println(err)
+		fmt.Println("---------------")
+
+	}
+	fmt.Printf("balance: %.2f\n", balance)
+	balance -= 322.32
+	writeValueToFile(balance)
+	balance, err = getBalanceFromFile()
+	if err != nil {
+		fmt.Println("ERROR")
+		fmt.Println(err)
+		fmt.Println("---------------")
+		panic(err)
+	}
+	fmt.Printf("balance 2: %.2f\n", balance)
+}
+
+func profit_calculator() {
+	var revenue, expenses, taxRate float64
+	fmt.Print("Revenue: ")
+	fmt.Scan(&revenue)
+	fmt.Print("Expenses: ")
+	fmt.Scan(&expenses)
+	fmt.Print("Tax Rates: ")
+	fmt.Scan(&taxRate)
+
+	ebt := revenue - expenses
+	profit := ebt * (1 - taxRate/100)
+
+	ratio := ebt / profit
+
+	fmt.Printf("EBT: %.2f\n", ebt)
+	fmt.Printf("Profit: %.2f\n", profit)
+	fmt.Printf("Ratio: %.2f\n", ratio)
+
+	profitFormatted := fmt.Sprintf("Profit: %.2f\n", profit)
+	ebtFormatted := fmt.Sprintf("EBT: %.2f\n", ebt)
+	ratioFormatted := fmt.Sprintf("Ratio: %.2f\n", ratio)
+	fmt.Print(ebtFormatted, ratioFormatted, profitFormatted)
+
+}
+*/
+
+/*
+func part1() {
+	//	fmt.Print("Hello world")
+
+	/* var investimentAmount float64 = 1000.0
+	var expectedReturnRate float64 = 5.5
+	var years float64 = 10
+
+	const inflationRate float64 = 2.5
+	var investimentAmount, expectedReturnRate, years float64
+	//expectedReturnRate, years := 5.5, 10.0
+
+	fmt.Print("Investiment Amount: ")
+	fmt.Scan(&investimentAmount)
+	fmt.Print("Expected Return Rate: ")
+	fmt.Scan(&expectedReturnRate)
+	fmt.Print("Years: ")
+	fmt.Scan(&years)
+
+	var futureValue = investimentAmount * math.Pow(1+expectedReturnRate/100, years)
+
+	futureRealValue := futureValue / math.Pow(1+inflationRate/100, years)
+	fmt.Print("futureValue: ")
+	fmt.Println(futureValue)
+	fmt.Print("futureRealValue: ")
+	fmt.Print(futureRealValue)
+}
+
+func writeValueToFile(value float64) {
+	valueFormatted := fmt.Sprint(value)
+	os.WriteFile("value.txt", []byte(valueFormatted), 0644)
+}
+
+func getBalanceFromFile() (float64, error) {
+	data, err := os.ReadFile("value.txt")
+
+	if err != nil {
+		return -1, errors.New("Failed to read file.")
+	}
+
+	value, err := strconv.ParseFloat(string(data), 64)
+	if err != nil {
+		return -1, errors.New("Failed to parse stored value.")
+	}
+
+	return value, nil
+}*/
