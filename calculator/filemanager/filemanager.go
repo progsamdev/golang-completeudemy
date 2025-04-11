@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"os"
+	"time"
 )
 
 type FileManager struct {
@@ -34,6 +35,8 @@ func (fm *FileManager) ReadFile() ([]string, error) {
 }
 
 func (fm *FileManager) WriteJSON(data interface{}) error {
+
+	time.Sleep(3 * time.Second)
 	//save a file as json
 	file, err := os.Create(fm.OutputPath)
 	if err != nil {
