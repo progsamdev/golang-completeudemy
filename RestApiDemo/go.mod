@@ -6,7 +6,7 @@ toolchain go1.24.2
 
 require (
 	github.com/gin-gonic/gin v1.10.0
-	github.com/gofrs/uuid v4.4.0+incompatible
+	github.com/gofrs/uuid v4.4.0+incompatible 
 )
 
 require (

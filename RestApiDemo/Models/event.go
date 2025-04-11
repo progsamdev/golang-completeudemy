@@ -8,9 +8,20 @@ import (
 
 type Event struct {
 	UUID        uuid.UUID `json:"uuid"`
-	Name        string    `json:"name"`
-	Description string    `json:"description"`
-	Location    string    `json:"location"`
-	DateTime    time.Time `json:"date_time"`
+	Name        string    `json:"name" binding:"required"`
+	Description string    `json:"description" binding:"required"`
+	Location    string    `json:"location" binding:"required"`
+	DateTime    time.Time `json:"date_time" binding:"required"`
 	UserID      uuid.UUID `json:"user_id"`
+}
+
+var events []Event
+
+func (e *Event) Save() error {
+	events = append(events, *e)
+	return nil
+}
+
+func GetAllEvents() []Event {
+	return events
 }
