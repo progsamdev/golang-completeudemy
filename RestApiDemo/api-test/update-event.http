@@ -1,0 +1,9 @@
+PUT http://localhost:8080/events/a7625c6b-938e-460b-92a5-9d50f1d8ea6d
+Content-Type: application/json
+
+{
+	"name": "FLOW GAMES LALALALAL",
+	"description": "Updated description",
+	"location": "Updated location", 
+	"date_time": "2025-04-12T10:00:00Z"
+}

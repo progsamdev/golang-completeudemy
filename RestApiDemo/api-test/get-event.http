@@ -1,6 +1,6 @@
-//GET http://localhost:8080/events
+GET http://localhost:8080/events
 
-GET http://localhost:8080/events/7c0573b9-b069-4bad-b260-2ce061c47790
+//GET http://localhost:8080/events/7c0573b9-b069-4bad-b260-2ce061c47790
 
 //GET http://localhost:8080/events/AAAA
 

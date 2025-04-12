@@ -106,3 +106,23 @@ func GetEventById(id uuid.UUID) (*Event, error) {
 
 	return &event, nil
 }
+
+func (event *Event) Update() error {
+	query := `UPDATE events
+				SET name = ?, description = ?, location = ?, date_time = ?
+				WHERE id = ?`
+
+	preparedStatement, err := db.DBConnection.Prepare(query)
+	if err != nil {
+		return err
+	}
+
+	defer preparedStatement.Close()
+
+	_, err = preparedStatement.Exec(event.Name, event.Description, event.Location, event.DateTime, event.Id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

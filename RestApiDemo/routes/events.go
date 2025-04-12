@@ -50,3 +50,27 @@ func getEventById(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, event)
 }
+
+func updateEvent(c *gin.Context) {
+	id := c.Param("id")
+	uuid, err := uuid.FromString(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid id"})
+		return
+	}
+
+	var updatedEvent Models.Event
+	if err := c.ShouldBindJSON(&updatedEvent); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad request"})
+		return
+	}
+
+	updatedEvent.Id = uuid
+	err = updatedEvent.Update()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update event"})
+		log.Println(err)
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Event updated successfully"})
+}
