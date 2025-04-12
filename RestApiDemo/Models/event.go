@@ -58,7 +58,7 @@ func GetAllEvents() ([]Event, error) {
 		return nil, err
 	}
 
-	//defer preparedStatement.Close()
+	defer preparedStatement.Close()
 
 	rows, err := preparedStatement.Query()
 	if err != nil {
@@ -90,6 +90,8 @@ func GetEventById(id uuid.UUID) (*Event, error) {
 		return nil, err
 	}
 
+	defer preparedStatement.Close()
+
 	var event Event
 
 	row := preparedStatement.QueryRow(id)
@@ -120,6 +122,24 @@ func (event *Event) Update() error {
 	defer preparedStatement.Close()
 
 	_, err = preparedStatement.Exec(event.Name, event.Description, event.Location, event.DateTime, event.Id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (event *Event) Delete() error {
+	query := `DELETE FROM events WHERE id = ?`
+
+	preparedStatement, err := db.DBConnection.Prepare(query)
+	if err != nil {
+		return err
+	}
+
+	defer preparedStatement.Close()
+
+	_, err = preparedStatement.Exec(event.Id)
 	if err != nil {
 		return err
 	}
