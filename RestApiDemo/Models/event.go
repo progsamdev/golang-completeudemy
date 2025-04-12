@@ -1,6 +1,7 @@
 package Models
 
 import (
+	"errors"
 	"fmt"
 	"restapidemo/db"
 	"time"
@@ -47,6 +48,61 @@ func (e *Event) Save() error {
 	return nil
 }
 
-func GetAllEvents() []Event {
-	return events
+func GetAllEvents() ([]Event, error) {
+
+	query := `SELECT * FROM events`
+
+	//PREPARE STATEMENT
+	preparedStatement, err := db.DBConnection.Prepare(query)
+	if err != nil {
+		return nil, err
+	}
+
+	//defer preparedStatement.Close()
+
+	rows, err := preparedStatement.Query()
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var events []Event
+
+	for rows.Next() {
+		var event Event
+		err := rows.Scan(&event.Id, &event.Name, &event.Description, &event.Location, &event.DateTime, &event.UserID)
+		if err != nil {
+			return nil, err
+		}
+		events = append(events, event)
+	}
+
+	return events, nil
+}
+
+func GetEventById(id uuid.UUID) (*Event, error) {
+
+	query := `SELECT * FROM events WHERE id = ?`
+
+	preparedStatement, err := db.DBConnection.Prepare(query)
+	if err != nil {
+		return nil, err
+	}
+
+	var event Event
+
+	row := preparedStatement.QueryRow(id)
+
+	if row == nil {
+		return nil, errors.New("event not found")
+	}
+
+	err = row.Scan(&event.Id, &event.Name, &event.Description, &event.Location, &event.DateTime, &event.UserID)
+
+	if err != nil {
+		return nil, errors.New("error parsing event")
+	}
+
+	return &event, nil
 }
