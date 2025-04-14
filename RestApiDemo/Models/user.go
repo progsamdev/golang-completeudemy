@@ -40,7 +40,7 @@ func (u *User) Save() error {
 
 func (u *User) ValidateCredentials(password string) error {
 
-	stmt := `SELECT password FROM users WHERE email = ?`
+	stmt := `SELECT id, password FROM users WHERE email = ?`
 
 	preparedStatement, err := db.DBConnection.Prepare(stmt)
 	if err != nil {
@@ -53,7 +53,7 @@ func (u *User) ValidateCredentials(password string) error {
 
 	var retrievedPassword string
 
-	err = row.Scan(&retrievedPassword)
+	err = row.Scan(&u.ID, &retrievedPassword)
 	if err != nil {
 		return err
 	}

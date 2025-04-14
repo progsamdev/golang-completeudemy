@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"restapidemo/Models"
+	"restapidemo/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -35,9 +36,15 @@ func login(c *gin.Context) {
 
 	err := user.ValidateCredentials(user.Password)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Could not authenticate user"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Login successful"})
+	token, err := utils.GenerateToken(user.Email, user.ID.String())
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not authenticate user"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "token": token})
 }
