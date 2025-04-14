@@ -18,8 +18,6 @@ type Event struct {
 	UserID      uuid.UUID `json:"user_id"`
 }
 
-var events []Event
-
 func (e *Event) Save() error {
 
 	e.Id = uuid.Must(uuid.NewV4())
@@ -28,6 +26,7 @@ func (e *Event) Save() error {
 	query := `INSERT INTO events (id, name, description, location, date_time, user_id) VALUES (?, ?, ?, ?, ?, ?)`
 
 	preparedStatement, err := db.DBConnection.Prepare(query)
+
 	if err != nil {
 		return err
 	}
