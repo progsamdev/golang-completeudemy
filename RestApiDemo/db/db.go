@@ -61,4 +61,19 @@ func createTable() {
 	if err != nil {
 		panic("Failed to create table: " + err.Error())
 	}
+
+	createRegistrationTable := `
+	CREATE TABLE IF NOT EXISTS registrations (
+		id TEXT PRIMARY KEY,
+		event_id TEXT NOT NULL,
+		user_id TEXT NOT NULL,
+		FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
+		FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+	)
+	`
+
+	_, err = DBConnection.Exec(createRegistrationTable)
+	if err != nil {
+		panic("Failed to create table: " + err.Error())
+	}
 }

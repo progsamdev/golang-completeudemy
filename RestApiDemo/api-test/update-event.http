@@ -1,5 +1,6 @@
-PUT http://localhost:8080/events/a7625c6b-938e-460b-92a5-9d50f1d8ea6d
+PUT http://localhost:8080/events/6924b92b-049c-4424-991d-627b750f8481
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3Q2QHRlc3QuY29tIiwiZXhwIjoxNzQ0Njg3NjkxLCJpZCI6IjliNjU0OTYwLWM2NDYtNDNlMS1iNWY2LWUyZGRiYTI5MTJiNSJ9.ne4U4pyPr0JLj2ARUg-20rsRb7KXednGP_QpwqOoeoo
 
 {
 	"name": "FLOW GAMES LALALALAL",

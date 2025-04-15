@@ -1,10 +1,4 @@
-POST http://localhost:8080/events
+DELETE http://localhost:8080/events/2201a88d-0560-4925-92e1-b0793cfdacb0/register
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJleHAiOjE3NDQ2ODkyODIsImlkIjoiYWQwN2IzZmItZjQwNi00ZDhiLWFlM2EtNTg0NjA4OTY2OGUwIn0.IjN73rlq2WMpIj0qUSOHuVtfow0-NOFuL-t4G0Gr99g
-Content-Type: application/json
 
-{
-	"name": "EVENT DDDD LOCO JOSE",
-	"description": "Test Description",
-	"location": "Test Location",
-	"date_time": "2021-01-01T00:00:00Z"
-}
+

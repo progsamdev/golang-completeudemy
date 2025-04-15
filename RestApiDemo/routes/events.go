@@ -57,19 +57,37 @@ func getEventById(c *gin.Context) {
 
 func updateEvent(c *gin.Context) {
 	id := c.Param("id")
-	uuid, err := uuid.FromString(id)
+	eventId, err := uuid.FromString(id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid id"})
 		return
 	}
 
-	var updatedEvent Models.Event
+	var updatedEvent *Models.Event
 	if err := c.ShouldBindJSON(&updatedEvent); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad request"})
 		return
 	}
 
-	updatedEvent.Id = uuid
+	userId := c.GetString("userID")
+	parsedUserId, err := uuid.FromString(userId)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid id"})
+		return
+	}
+
+	updatedEvent, err = Models.GetEventById(eventId)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch the event."})
+		return
+	}
+
+	if updatedEvent.UserID != parsedUserId {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized to update event."})
+		return
+	}
+
 	err = updatedEvent.Update()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update event"})
@@ -80,16 +98,28 @@ func updateEvent(c *gin.Context) {
 }
 
 func deleteEvent(c *gin.Context) {
-	id := c.Param("id")
-	uuid, err := uuid.FromString(id)
+	userId := c.GetString("userID")
+	parsedUserId, err := uuid.FromString(userId)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid id"})
 		return
 	}
 
-	event, err := Models.GetEventById(uuid)
+	id := c.Param("id")
+	eventId, err := uuid.FromString(id)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Event not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid id"})
+		return
+	}
+
+	event, err := Models.GetEventById(eventId)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Event not found"})
+		return
+	}
+
+	if event.UserID != parsedUserId {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized to delete event."})
 		return
 	}
 
