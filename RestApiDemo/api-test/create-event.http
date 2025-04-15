@@ -1,8 +1,9 @@
 POST http://localhost:8080/events
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3Q2QHRlc3QuY29tIiwiZXhwIjoxNzQ0Njg0NTU2LCJpZCI6IjliNjU0OTYwLWM2NDYtNDNlMS1iNWY2LWUyZGRiYTI5MTJiNSJ9.rGXVz-reZycgKeVLzwIRU0RXp1HxPWM_YONSdxXeVc4
 Content-Type: application/json
 
 {
-	"name": "EVENT MARCO LOCO",
+	"name": "EVENT DDDD LOCO 33",
 	"description": "Test Description",
 	"location": "Test Location",
 	"date_time": "2021-01-01T00:00:00Z"

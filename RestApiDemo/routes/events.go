@@ -19,14 +19,18 @@ func getEvents(c *gin.Context) {
 }
 
 func createEvent(c *gin.Context) {
+
+	userID := c.GetString("userID")
+
 	var newEvent Models.Event
 
 	if err := c.ShouldBindJSON(&newEvent); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		log.Println(err) //log error but do not stop the program
+		log.Println(err)
 		return
 	}
 
+	newEvent.UserID = uuid.Must(uuid.FromString(userID))
 	err := newEvent.Save()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

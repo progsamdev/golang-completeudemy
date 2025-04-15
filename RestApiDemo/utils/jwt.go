@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"os"
 	"time"
 
@@ -16,10 +17,7 @@ func init() {
 }
 
 func GenerateToken(email string, id string) (string, error) {
-	secretKey := os.Getenv("JWT_SECRET")
-	if secretKey == "" {
-		panic("JWT_SECRET environment variable is not set")
-	}
+	secretKey := getSecretKey()
 
 	token := jwt.NewWithClaims(
 		jwt.SigningMethodHS256,
@@ -31,4 +29,42 @@ func GenerateToken(email string, id string) (string, error) {
 	)
 
 	return token.SignedString([]byte(secretKey))
+}
+
+func VerifyToken(token string) (string, error) {
+
+	secretKey := getSecretKey()
+	parsedToken, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+
+		return []byte(secretKey), nil
+	})
+
+	if err != nil {
+		return "", fmt.Errorf("invalid token")
+	}
+
+	if !parsedToken.Valid {
+		return "", fmt.Errorf("invalid token")
+	}
+
+	claims, ok := parsedToken.Claims.(jwt.MapClaims)
+	if !ok {
+		return "", fmt.Errorf("invalid token claims")
+	}
+
+	//	email:= claims["email"].(string)
+	userID := claims["id"].(string)
+
+	return userID, nil
+}
+
+func getSecretKey() string {
+	secretKey := os.Getenv("JWT_SECRET")
+	if secretKey == "" {
+		panic("JWT_SECRET environment variable is not set")
+	}
+	return secretKey
 }

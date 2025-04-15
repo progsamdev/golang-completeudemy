@@ -21,7 +21,6 @@ type Event struct {
 func (e *Event) Save() error {
 
 	e.Id = uuid.Must(uuid.NewV4())
-	e.UserID = uuid.Must(uuid.NewV4())
 
 	query := `INSERT INTO events (id, name, description, location, date_time, user_id) VALUES (?, ?, ?, ?, ?, ?)`
 
